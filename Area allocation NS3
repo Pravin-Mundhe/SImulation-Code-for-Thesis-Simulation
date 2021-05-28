@@ -1,0 +1,40 @@
+MobilityHelper mobilityAdhoc;
+  ObjectFactory pos;
+  pos.SetTypeId ("ns3::RandomBoxPositionAllocator");
+  pos.Set ("X", StringValue ("ns3::UniformRandomVariable[Min=0.0|Max=1500.0]"));
+  pos.Set ("Y", StringValue ("ns3::UniformRandomVariable[Min=0.0|Max=300.0]"));
+  // we need antenna height uniform [1.0 .. 2.0] for loss model
+  pos.Set ("Z", StringValue ("ns3::UniformRandomVariable[Min=1.0|Max=2.0]"));
+
+  Ptr<ListPositionAllocator> positionAlloc = CreateObject <ListPositionAllocator>();
+    positionAlloc ->Add(Vector(10, 10,10)); // node0
+    positionAlloc ->Add(Vector(50, 10,10)); // node1
+    positionAlloc ->Add(Vector(90, 10,10)); // node2
+    positionAlloc ->Add(Vector(10, 30,10)); // node3
+    positionAlloc ->Add(Vector(50, 30,10)); // node4
+    positionAlloc ->Add(Vector(90, 30,10)); // node5
+    positionAlloc ->Add(Vector(10, 50,10)); // node6
+    positionAlloc ->Add(Vector(50, 50,10)); // node7
+    positionAlloc ->Add(Vector(90, 50,10)); // node8
+    positionAlloc ->Add(Vector(10, 70,10)); // node9
+    positionAlloc ->Add(Vector(50, 70,10)); // node10
+    positionAlloc ->Add(Vector(90, 70,10)); // node11
+    positionAlloc ->Add(Vector(10, 90,10)); // node12
+    positionAlloc ->Add(Vector(50, 90,10)); // node13
+    positionAlloc ->Add(Vector(90, 90,10)); // node14
+    positionAlloc ->Add(Vector(10, 110,10)); // node15
+    positionAlloc ->Add(Vector(50, 110,10)); // node16
+    positionAlloc ->Add(Vector(90, 110,10)); // node17
+    positionAlloc ->Add(Vector(10, 140,10)); // node18
+    positionAlloc ->Add(Vector(50, 140,10)); // node19
+
+  mobilityAdhoc.SetPositionAllocator(positionAlloc);
+
+  double speed=50.0;
+  mobilityAdhoc.SetMobilityModel ("ns3::ConstantVelocityMobilityModel");
+  mobilityAdhoc.InstallAll();
+  for (uint i=0 ; i < adhocNodes.GetN() ; i++)
+  {
+  	Ptr<ConstantVelocityMobilityModel> mob = adhocNodes.Get(i)->GetObject<ConstantVelocityMobilityModel>();
+  	mob->SetVelocity(Vector(speed, 0, 0));
+  } 
